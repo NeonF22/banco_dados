@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseModel version="3.0">
+    <entities>
+        <entity name="UNIDADE_BIBLIOTECA">
+            <attribute name="codigo" type="int" primaryKey="true" description="Identificador da unidade"/>
+            <attribute name="nome" type="string" uniqueKey="true" description="Nome da unidade"/>
+            <attribute name="endereco" type="string" description="Endereço da unidade"/>
+            <attribute name="telefones" type="string[]" description="Telefones de contato"/>
+        </entity>
+        <entity name="TITULO_ACERVO">
+            <attribute name="ISBN" type="string" primaryKey="true" description="Código identificador do título"/>
+            <attribute name="nome" type="string" description="Nome do título"/>
+            <attribute name="area_conhecimento_principal" type="string" description="Área principal"/>
+            <attribute name="assunto_especifico" type="string" description="Assunto específico"/>
+            <attribute name="areas_secundarias" type="string[]" description="Áreas secundárias"/>
+            <attribute name="ano_publicacao" type="int" description="Ano de publicação"/>
+            <attribute name="editora" type="string" description="Editora"/>
+            <attribute name="idioma" type="string" description="Idioma de publicação"/>
+            <attribute name="prazo_devolucao_professor" type="int" description="Prazo para professores"/>
+            <attribute name="prazo_devolucao_aluno" type="int" description="Prazo para alunos"/>
+            <attribute name="num_max_renovacao" type="int" description="Máximo de renovações"/>
+            <attribute name="valor_referencia" type="decimal" description="Valor para multa"/>
+        </entity>
+        <entity name="LIVRO">
+            <attribute name="ISBN" type="string" primaryKey="true" description="Referência ao Título_Acervo"/>
+            <attribute name="autores" type="string[]" description="Autores do livro"/>
+            <attribute name="edicao" type="int" description="Edição do livro"/>
+        </entity>
+        <entity name="PERIODICO">
+            <attribute name="ISBN" type="string" primaryKey="true" description="Referência ao Título_Acervo"/>
+            <attribute name="periodicidade" type="string" description="Frequência de publicação"/>
+            <attribute name="tipo" type="string" description="Tipo de periódico"/>
+        </entity>
+    </entities>
+    <relationships>
+        <relationship name="localizado_em" from="UNIDADE_BIBLIOTECA" to="ITEM_ACERVO" type="one-to-many"/>
+        <relationship name="responsável_por" from="UNIDADE_BIBLIOTECA" to="BIBLIOTECARIO" type="one-to-one"/>
+        <relationship name="trabalha_em" from="UNIDADE_BIBLIOTECA" to="ATENDENTE" type="one-to-many"/>
+        <relationship name="cadastrado_em" from="UNIDADE_BIBLIOTECA" to="USUARIO" type="one-to-many"/>
+        <relationship name="exemplar_de" from="TITULO_ACERVO" to="ITEM_ACERVO" type="one-to-many"/>
+        <relationship name="é_um" from="TITULO_ACERVO" to="LIVRO" type="one-to-one"/>
+        <relationship name="é_um" from="TITULO_ACERVO" to="PERIODICO" type="one-to-one"/>
+    </relationships>
+</databaseModel>
